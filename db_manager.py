@@ -46,7 +46,7 @@ class DbManager(object):
                     {
                         'location': self.keys[i],
                         'forecast': first_x_periods,
-                        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     }
                 )
             print
@@ -60,8 +60,8 @@ class DbManager(object):
             req = requests.get(url)
             print 'got request'
             print
-            # x = req.json()['current_observation']
-            print x 
+            x = req.json()['current_observation']
+            # print x 
             
             myObs = dict()
             for key in self.obser_keys:
@@ -73,7 +73,7 @@ class DbManager(object):
                     {
                         'location': self.keys[i],
                         'weather_conditions': myObs,
-                        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     }
                 )
             print
@@ -83,8 +83,8 @@ class DbManager(object):
     def db_init(self):
         client = pymongo.MongoClient()
         db = client.WeatherPics
-        self.db_init_forecast(db)
-        self.db_init_weather_obs(db)
+        self.db_init_forecast(self.db)
+        self.db_init_weather_obs(self.db)
 
     def db_update_forecast(self, db):
         
@@ -109,7 +109,7 @@ class DbManager(object):
                     {
                         "$set":{
                             'forecast': first_x_periods,
-                            "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         },
 
                     },
@@ -141,7 +141,7 @@ class DbManager(object):
                     {
                         "$set":{
                             'weather_conditions': myObs,
-                            "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
                         }
                     },
@@ -158,8 +158,9 @@ class DbManager(object):
         client = pymongo.MongoClient()
         db = client.WeatherPics
 
-        self.db_update_forecast(db)
-        self.db_update_weather(db)
+
+        self.db_update_forecast(self.db)
+        self.db_update_weather(self.db)
 
     def db_filter_input_recieved(self):
         
@@ -206,12 +207,10 @@ class DbManager(object):
 
     
     def db_get_all_weather(self):
-        client = pymongo.MongoClient()
-        db = client.WeatherPics
-
+        
         
         stuff = list()
-        cursor = db.forecasts.find()
+        cursor = self.db.forecasts.find()
         for result in cursor:
             # json_doc = json.dumps(result, default=json_util.default)
             # stuff.append(json_doc)
@@ -224,7 +223,9 @@ class DbManager(object):
         return stuff
 
 
-# x = DbManager()
+x = DbManager()
+# x.db_init()
+# x.db_update_weather(x.db)
 # x.db_init_weather_obs(x.db)
 # db_get_all_weather()
 # x.db_update_all()
