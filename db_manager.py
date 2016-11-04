@@ -206,8 +206,8 @@ class DbManager(object):
 
 
     
-    def db_get_all_weather(self):
-        
+    def db_get_all_forecasts(self):
+        print 'Getting all forecasts'
         
         stuff = list()
         cursor = self.db.forecasts.find()
@@ -218,10 +218,47 @@ class DbManager(object):
             stuff.append(result)
             # print result
             print
-        print stuff
+        # print stuff
 
         return stuff
 
+    def db_get_all_observations(self):
+        print 'Getting all observations'
+        stuff = list()
+        cursor = self.db.observations.find()
+        for result in cursor:
+            # json_doc = json.dumps(result, default=json_util.default)
+            # stuff.append(json_doc)
+            # print result['forecast']
+            stuff.append(result)
+            # print result
+            print
+        # print stuff
+
+        return stuff
+
+    def db_get_one_forecast(self, name):
+        output = []
+        print self.db
+        cursor = self.db.forecasts.find({"location":name})
+        for result in cursor:
+            output.append(result)
+        return output
+    
+    def db_get_one_observation(self, name):
+        output = []
+        print self.db
+        cursor = self.db.observations.find({"location":name})
+        for result in cursor:
+            output.append(result)
+        return output
+
+
+
+    
+    # def db_get_forecast_name(self,name):
+    #     output = []
+    #     cursor = self.db.forecasts.find({})
 
 x = DbManager()
 # x.db_init()

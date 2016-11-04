@@ -12,15 +12,47 @@ app.config['DEBUG'] = True
 # def hello():
 #     return "Hello World!"
 
-@app.route("/allWeather")
-def allWeatherInfo():
+@app.route("/allForecasts")
+def allForecasts():
     x = DbManager()
-    stuff = x.db_get_all_weather()
+    stuff = x.db_get_all_forecasts()
     # print stuff
     resp = Response(json.dumps({'data': stuff}, default=json_util.default),
                 mimetype='application/json');
     
     return resp
+
+@app.route("/allObservations")
+def allObservations():
+    x = DbManager()
+    stuff = x.db_get_all_observations()
+    # print stuff
+    resp = Response(json.dumps({'data': stuff}, default=json_util.default),
+                mimetype='application/json');
+    return resp
+
+@app.route("/forecast/<city>", methods= ['GET'])
+def get_one_forecast(city):
+    x = DbManager()
+    arr = x.db_get_one_forecast(city)
+    if not arr:
+        arr = "City is invalid"
+    resp = Response(json.dumps({'data': arr}, default=json_util.default),
+                mimetype='application/json');
+    return resp
+
+@app.route("/observation/<city>", methods= ['GET'])
+def get_one_observation(city):
+    x = DbManager()
+    arr = x.db_get_one_observation(city)
+    if not arr:
+        arr = "City is invalid"
+    resp = Response(json.dumps({'data': arr}, default=json_util.default),
+                mimetype='application/json');
+    return resp
+
+
+
 
 @app.route('/')
 def index():
