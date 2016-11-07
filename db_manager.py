@@ -260,9 +260,9 @@ class DbManager(object):
     #     output = []
     #     cursor = self.db.forecasts.find({})
 
-x = DbManager()
+# x = DbManager()
 # x.db_init()
 # x.db_update_weather(x.db)
 # x.db_init_weather_obs(x.db)
 # db_get_all_weather()
-x.db_update_all()
+# x.db_update_all()

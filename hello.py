@@ -31,6 +31,34 @@ def allObservations():
                 mimetype='application/json');
     return resp
 
+@app.route("/updateObservations")
+def updateObservations():
+    x = DbManager()
+    stuff = x.db_update_weather(x.db)
+    # print stuff
+    resp = Response(json.dumps({'data': stuff}, default=json_util.default),
+                mimetype='application/json');
+    return resp
+
+@app.route("/updateForecast")
+def updateForecast():
+    x = DbManager()
+    stuff = x.db_update_forecast(x.db)
+    # print stuff
+    resp = Response(json.dumps({'data': stuff}, default=json_util.default),
+                mimetype='application/json');
+    return resp
+
+@app.route("/updateAll")
+def update_all():
+    x = DbManager()
+    stuff = x.db_update_all(x.db)
+    # print stuff
+    resp = Response(json.dumps({'data': stuff}, default=json_util.default),
+                mimetype='application/json');
+    return resp
+
+
 @app.route("/forecast/<city>", methods= ['GET'])
 def get_one_forecast(city):
     x = DbManager()
