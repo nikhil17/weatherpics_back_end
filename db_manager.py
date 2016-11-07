@@ -209,18 +209,16 @@ class DbManager(object):
     def db_get_all_forecasts(self):
         print 'Getting all forecasts'
         
-        stuff = list()
+        forecasts = list()
         cursor = self.db.forecasts.find()
         for result in cursor:
             # json_doc = json.dumps(result, default=json_util.default)
             # stuff.append(json_doc)
-            print result['forecast']
-            stuff.append(result)
+            forecasts.append(result)
             # print result
             print
-        # print stuff
 
-        return stuff
+        return forecasts
 
     def db_get_all_observations(self):
         print 'Getting all observations'

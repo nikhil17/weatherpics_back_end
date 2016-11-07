@@ -8,16 +8,26 @@ import pymongo
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-# @app.route("/")
-# def hello():
-#     return "Hello World!"
+#updates everything
+@app.route("/")
+def all_forecasts_and_observations():
+    x = DbManager()
+    forecasts = x.db_get_all_forecasts()
+    observations = x.db_get_all_observations()
+
+    # print stuff
+    resp = Response(json.dumps({'forecasts': forecasts, 'observations':observations}, default=json_util.default),
+                mimetype='application/json');
+    
+    return resp
+
 
 @app.route("/allForecasts")
 def allForecasts():
     x = DbManager()
     stuff = x.db_get_all_forecasts()
     # print stuff
-    resp = Response(json.dumps({'data': stuff}, default=json_util.default),
+    resp = Response(json.dumps({'forecasts': stuff}, default=json_util.default),
                 mimetype='application/json');
     
     return resp
@@ -27,7 +37,7 @@ def allObservations():
     x = DbManager()
     stuff = x.db_get_all_observations()
     # print stuff
-    resp = Response(json.dumps({'data': stuff}, default=json_util.default),
+    resp = Response(json.dumps({'observations': stuff}, default=json_util.default),
                 mimetype='application/json');
     return resp
 
@@ -65,7 +75,7 @@ def get_one_forecast(city):
     arr = x.db_get_one_forecast(city)
     if not arr:
         arr = "City is invalid"
-    resp = Response(json.dumps({'data': arr}, default=json_util.default),
+    resp = Response(json.dumps({'forecast': arr}, default=json_util.default),
                 mimetype='application/json');
     return resp
 
@@ -75,14 +85,14 @@ def get_one_observation(city):
     arr = x.db_get_one_observation(city)
     if not arr:
         arr = "City is invalid"
-    resp = Response(json.dumps({'data': arr}, default=json_util.default),
+    resp = Response(json.dumps({'observation': arr}, default=json_util.default),
                 mimetype='application/json');
     return resp
 
 
 
 
-@app.route('/')
+@app.route('/crap')
 def index():
     # This is a dummy list, 2 nested arrays containing some
     # params and values
