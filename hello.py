@@ -63,7 +63,7 @@ def updateForecast():
 @app.route("/")
 def update_all():
     x = DbManager()
-    stuff = x.db_update_all(x.db)
+    stuff = x.db_update_all()
     # print stuff
     resp = Response(json.dumps({'data': 'updating all the information'}, default=json_util.default),
                 mimetype='application/json');
