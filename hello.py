@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 #updates everything
-@app.route("/")
+@app.route("/getAllTheThings")
 def all_forecasts_and_observations():
     x = DbManager()
     forecasts = x.db_get_all_forecasts()
@@ -59,12 +59,13 @@ def updateForecast():
                 mimetype='application/json');
     return resp
 
-@app.route("/updateAll")
+#updates everything
+@app.route("/")
 def update_all():
     x = DbManager()
     stuff = x.db_update_all(x.db)
     # print stuff
-    resp = Response(json.dumps({'data': stuff}, default=json_util.default),
+    resp = Response(json.dumps({'data': 'updating all the information'}, default=json_util.default),
                 mimetype='application/json');
     return resp
 
