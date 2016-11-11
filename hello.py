@@ -4,9 +4,11 @@ from flask import Flask, Response, jsonify
 from bson import json_util
 from db_manager import DbManager
 import pymongo
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+CORS(app)
 
 #updates everything
 @app.route("/getAllTheThings")
