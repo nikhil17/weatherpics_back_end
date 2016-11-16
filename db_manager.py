@@ -28,6 +28,7 @@ class DbManager(object):
         #init forecasts
         print 'initializing forecast into database'
         for i in xrange(len(self.url_tails)):
+
             url = self._base_forecast + self.url_tails[i]
             req = requests.get(url)
             print 'got request'
@@ -92,6 +93,7 @@ class DbManager(object):
         for i in xrange(len(self.url_tails)):
             print 'updating forecasts for '+ str(self.keys[i])
             url = self._base_forecast + self.url_tails[i]
+            print 'querying url :' + url
             req = requests.get(url)
             print 'got request'
             print req.status_code
