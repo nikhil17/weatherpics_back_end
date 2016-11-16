@@ -115,6 +115,8 @@ class DbManager(object):
                     },
                     True
                 )
+            print x
+            print 'updated forecast for '+ str(self.keys[i])
             print
             print result.matched_count
             print
@@ -147,6 +149,10 @@ class DbManager(object):
                     },
                     True
                 )
+            print x
+            print 'updated weather for '+ str(self.keys[i])
+            print x['observation_time']
+
             print result.matched_count
             print
             time.sleep(10)
