@@ -1,0 +1,13 @@
+How to use virtualenv
+To create:
+virtualenv venv
+
+to start:
+source venv/bin/activate
+
+deactivate:
+deactivate
+
+
+Start Heroku
+heroku ps:scale web=1 
