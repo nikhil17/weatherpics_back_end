@@ -90,14 +90,22 @@ class DbManager(object):
         
         print 'Updating forecast information'
         for i in xrange(len(self.url_tails)):
+            print 'updating forecasts for '+ str(self.keys[i])
             url = self._base_forecast + self.url_tails[i]
             req = requests.get(url)
             print 'got request'
+            print req.status_code
+
+            if req.status_code != requests.codes.ok:
+                print 'NOT ABLE TO QUERY SERVER'
+            req.raise_for_status()
+            print
+            print req.json()
             # print req.json()['forecast']
             print
             x = json.loads(req.text)['forecast']['txt_forecast']['forecastday']
             
-            print req.status_code
+            
             print
             first_x_periods = list()
             for d in x:
@@ -124,12 +132,19 @@ class DbManager(object):
 
     def db_update_weather(self, db):
 
-        print 'Updating weather conditions'
+        print 'Updating weather observations'
         
         for i in xrange(len(self.url_tails)):
+            print 'updating weather observations for '+ str(self.keys[i])
             url = self._base_conditions + self.url_tails[i]
             req = requests.get(url)
+
+            if req.status_code != requests.codes.ok:
+                print 'NOT ABLE TO QUERY SERVER'
+            req.raise_for_status()
+
             print 'got request'
+            print req.json()
             print
             x = req.json()['current_observation']
 
@@ -149,7 +164,6 @@ class DbManager(object):
                     },
                     True
                 )
-            print x
             print 'updated weather for '+ str(self.keys[i])
             print x['observation_time']
 
